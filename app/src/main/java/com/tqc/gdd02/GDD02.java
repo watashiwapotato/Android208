@@ -3,6 +3,7 @@ package com.tqc.gdd02;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.app.VoiceInteractor;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,10 +22,13 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+
+import java.net.URI;
 
 public class GDD02 extends Activity
 {
@@ -160,10 +164,11 @@ public class GDD02 extends Activity
     {
       //  利用DownloadManager.Request下載傳入的圖片網址
       // TO DO
-      DownloadManager.Request request = null; // TO DO
+      DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));// TO DO
 
       //  指定DownloadManager.Request屬性為允許WIFI以及行動網路皆可下載。
       // TO DO
+      request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
       request.setAllowedOverRoaming(false);
       request.setTitle("我的檔案下載管理員");
       request.setDescription("使用DownloadManager下載圖檔");
@@ -172,6 +177,7 @@ public class GDD02 extends Activity
 
       //  利用DownloadManager將建立的DownloadManager.Request加入下載佇列，並取得其下載識別碼(long型別)存於downloadReference變數中
       // TO DO
+      downloadReference = downloadManager.enqueue(request);
 
       SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(GDD02.this);
       SharedPreferences.Editor editor = settings.edit();
